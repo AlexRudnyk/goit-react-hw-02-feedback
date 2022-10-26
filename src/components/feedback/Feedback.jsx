@@ -9,20 +9,56 @@ import {
 } from './Feedback.styled';
 
 class Feedback extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  handleGoodIncrement = () => {
+    this.setState(prevState => {
+      return {
+        good: prevState.good + 1,
+      };
+    });
+  };
+
+  handleNeutralIncrement = () => {
+    this.setState(prevState => {
+      return {
+        neutral: prevState.neutral + 1,
+      };
+    });
+  };
+
+  handleBadIncrement = () => {
+    this.setState(prevState => {
+      return {
+        bad: prevState.bad + 1,
+      };
+    });
+  };
+
   render() {
     return (
       <Container>
         <FirstText>Please leave feedback</FirstText>
         <BtnContainer>
-          <Button type="button">Good</Button>
-          <Button type="button">Neutral</Button>
-          <Button type="button">Bad</Button>
+          <Button type="button" onClick={this.handleGoodIncrement}>
+            Good
+          </Button>
+          <Button type="button" onClick={this.handleNeutralIncrement}>
+            Neutral
+          </Button>
+          <Button type="button" onClick={this.handleBadIncrement}>
+            Bad
+          </Button>
         </BtnContainer>
         <StatisticsText>Statistics</StatisticsText>
         <ul>
-          <StatisticsItem>Good:</StatisticsItem>
-          <StatisticsItem>Neutral:</StatisticsItem>
-          <StatisticsItem>Bad:</StatisticsItem>
+          <StatisticsItem>Good: {this.state.good}</StatisticsItem>
+          <StatisticsItem>Neutral: {this.state.neutral}</StatisticsItem>
+          <StatisticsItem>Bad: {this.state.bad}</StatisticsItem>
         </ul>
       </Container>
     );
