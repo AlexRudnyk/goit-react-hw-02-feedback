@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { FirstText, Container, BtnContainer, Button } from './App.styled';
+import { Container } from './App.styled';
 import Statistics from './statistics';
+import FeedbackOptions from './feedbackOptions';
+import Section from './section';
 
 class App extends Component {
   state = {
@@ -9,56 +11,43 @@ class App extends Component {
     bad: 0,
   };
 
-  handleGoodIncrement = () => {
-    this.setState(prevState => {
-      return {
-        good: prevState.good + 1,
-      };
-    });
+  makesVotesSum = () => {
+    return this.state.good + this.state.neutral + this.state.bad;
   };
 
-  handleNeutralIncrement = () => {
-    this.setState(prevState => {
-      return {
-        neutral: prevState.neutral + 1,
-      };
-    });
+  makesPositiveFeedbackPercentage = () => {
+    return (this.state.good / this.makesVotesSum()) * 100 || 0;
   };
 
-  handleBadIncrement = () => {
-    this.setState(prevState => {
-      return {
-        bad: prevState.bad + 1,
-      };
+  leaveFeedback = event => {
+    const targetBtn = event.currentTarget.name;
+    this.setState({
+      [targetBtn]: this.state[targetBtn] + 1,
     });
   };
 
   render() {
-    const totalVotes = this.state.good + this.state.neutral + this.state.bad;
-    const positiveFeedbackPercentage =
-      (this.state.good / totalVotes) * 100 || 0;
+    const options = Object.keys(this.state);
+    const totalVotes = this.makesVotesSum();
+    const positiveFeedbackPercentage = this.makesPositiveFeedbackPercentage();
 
     return (
       <Container>
-        <FirstText>Please leave feedback</FirstText>
-        <BtnContainer>
-          <Button type="button" onClick={this.handleGoodIncrement}>
-            Good
-          </Button>
-          <Button type="button" onClick={this.handleNeutralIncrement}>
-            Neutral
-          </Button>
-          <Button type="button" onClick={this.handleBadIncrement}>
-            Bad
-          </Button>
-        </BtnContainer>
-        <Statistics
-          good={this.state.good}
-          neutral={this.state.neutral}
-          bad={this.state.bad}
-          total={totalVotes}
-          positivePercentage={positiveFeedbackPercentage}
-        />
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={options}
+            onLeaveFeedback={this.leaveFeedback}
+          />
+        </Section>
+        <Section title="Statistics">
+          <Statistics
+            good={this.state.good}
+            neutral={this.state.neutral}
+            bad={this.state.bad}
+            total={totalVotes}
+            positivePercentage={positiveFeedbackPercentage}
+          />
+        </Section>
       </Container>
     );
   }
