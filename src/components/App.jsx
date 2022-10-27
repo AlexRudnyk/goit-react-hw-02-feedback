@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-import {
-  FirstText,
-  Container,
-  BtnContainer,
-  Button,
-  StatisticsText,
-  StatisticsItem,
-} from './App.styled';
+import { FirstText, Container, BtnContainer, Button } from './App.styled';
+import Statistics from './statistics';
 
 class App extends Component {
   state = {
@@ -58,16 +52,13 @@ class App extends Component {
             Bad
           </Button>
         </BtnContainer>
-        <StatisticsText>Statistics</StatisticsText>
-        <ul>
-          <StatisticsItem>Good: {this.state.good}</StatisticsItem>
-          <StatisticsItem>Neutral: {this.state.neutral}</StatisticsItem>
-          <StatisticsItem>Bad: {this.state.bad}</StatisticsItem>
-          <StatisticsItem>Total: {totalVotes}</StatisticsItem>
-          <StatisticsItem>
-            Positive feedback: {positiveFeedbackPercentage.toFixed()}%
-          </StatisticsItem>
-        </ul>
+        <Statistics
+          good={this.state.good}
+          neutral={this.state.neutral}
+          bad={this.state.bad}
+          total={totalVotes}
+          positivePercentage={positiveFeedbackPercentage}
+        />
       </Container>
     );
   }
